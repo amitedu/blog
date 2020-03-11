@@ -1,28 +1,44 @@
 <?php include 'inc/header.php'; ?>
 
-
+<?php
+	if(!isset($_GET['id']) || $_GET['id'] == null) {
+		header("Location: 404.php");
+	} else {
+		$id = $_GET['id'];
+		$query = "SELECT * FROM tbl_post WHERE id = $id";
+		$result = $db->select($query);
+	}
+?>
 
 	<div class="contentsection contemplete clear">
 		<div class="maincontent clear">
 			<div class="about">
-				<h2>Our post title here</h2>
-				<h4>April 10, 2016, 12:30 PM, By Delowar</h4>
-				<img src="images/post2.png" alt="MyImage"/>
-				<p>Our psot..Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.</p>
-				
-				<p>About me..Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.</p>
-
-				<p>About me..Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here. Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.Some text will be go here.</p>
+			<?php
+				if($result) {
+					$post = $result->fetch_assoc();	
+			?>
+				<h2><?= $post['title']; ?></h2>
+				<h4><?= $fm->dateFormat($post['date']) ?>, By <?= $post['author']; ?></h4>
+				<img src="admin/uploads/<?= $post['image']; ?>" alt="MyImage"/>
+				<?= $post['body']; ?>
 				
 				<div class="relatedpost clear">
 					<h2>Related articles</h2>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-					<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
+					<?php
+						$catid = $post['cat'];
+						$queryReleted = "SELECT * FROM tbl_post WHERE cat = $catid limit 6";
+						$resultReleted = $db->select($queryReleted);
+						
+						while($postsReleted = $resultReleted->fetch_assoc()) {
+					?>
+						<a href="post.php?id=<?= $postsReleted['id'] ?>"><img src="admin/uploads/<?= $postsReleted['image']; ?>" alt="post image"/></a>
+					<?php
+						}
+					?>
 				</div>
+			<?php
+				}
+			?>
 			</div>
 
 		</div>

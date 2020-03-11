@@ -6,9 +6,9 @@ class Format {
         return date('F j, Y, g:i a', strtotime($date));
     }
 
-    public function shortText($text) {
+    public function shortText($text, $textUpto = 400) {
         
-        $text = substr($text, 0, 400);
+        $text = substr($text, 0, $textUpto);
         $text = $text . '...';
         return $text;
 

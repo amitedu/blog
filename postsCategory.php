@@ -1,8 +1,7 @@
 <?php include 'inc/header.php'; ?>
-<?php include 'inc/slider.php'; ?>
 
 
-	<div class="contentsection contemplete clear">
+<div class="contentsection contemplete clear">
 		<div class="maincontent clear">
 		<?php
 			$perPage = 3;
@@ -14,9 +13,13 @@
 			$startFrom = ($page - 1) * $perPage;
 		?>
 
-		<?php
-
-			$query = "SELECT * FROM tbl_post limit $startFrom, $perPage";
+        <?php
+            if($_GET['catId']) {
+                $catId = $_GET['catId'];
+            } else {
+                header("Location: 404.php");
+            }
+			$query = "SELECT * FROM tbl_post WHERE cat = $catId LIMIT $startFrom, $perPage";
 			$posts = $db->select($query);
 
 			if($posts) {
@@ -37,7 +40,7 @@
 				}
 		?>
 		<?php
-			$query = "SELECT * FROM tbl_post";
+			$query = "SELECT * FROM tbl_post WHERE cat = $catId";
 			$result = $db->select($query);
 			$totalRows = mysqli_num_rows($result);
 			if($totalRows > $perPage) {
@@ -56,6 +59,17 @@
 		?>
 
 		</div>
-		<?php include 'inc/sidebar.php'; ?>
+
+
+
+
+
+
+
+
+
+
+
+        <?php include 'inc/sidebar.php'; ?>
 	</div>
 <?php include 'inc/footer.php'; ?>
