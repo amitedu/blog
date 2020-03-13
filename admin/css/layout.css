@@ -44,6 +44,16 @@ a:hover {
 	color:#333;
 }
 
+/*---------Error and Success messgae--------------*/
+.error {
+	color: red;
+	font-size: 18px;
+}
+
+.success {
+	color: green;
+	font-size: 18px;
+}
 
 /* 960 grid system container background
 ----------------------------------------------- */

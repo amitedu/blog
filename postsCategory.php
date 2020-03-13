@@ -54,7 +54,9 @@
 		?>
 		<?php
 			} else {
-				header('Location: 404.php');
+		?>
+			<p>No Posts available in this category.</p>
+		<?php
 			}
 		?>
 

@@ -4,6 +4,17 @@
 <div class="grid_10">
     <div class="box round first grid">
         <h2>Category List</h2>
+        <?php
+            if (isset($_GET['delCatId']) && $_GET['delCatId'] != null) {
+                $delCatId = $_GET['delCatId'];
+                $delQuery = "DELETE FROM tbl_category WHERE id = $delCatId";
+                if($db->delete($delQuery)) {
+                    echo "<span class='success'>Deleted Successfully.</span>";
+                } else {
+                    echo "<span class='error'>Delete Unsuccess.</span>";
+                }
+            }
+        ?>
         <div class="block">        
             <table class="data display datatable" id="example">
             <thead>
@@ -14,46 +25,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="odd gradeX">
-                    <td>01</td>
-                    <td>Internet</td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="even gradeC">
-                    <td>02</td>
-                    <td>Explorer </td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="odd gradeX">
-                    <td>03</td>
-                    <td>Internet</td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="even gradeC">
-                    <td>04</td>
-                    <td>Explorer </td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                    <tr class="odd gradeX">
-                    <td>05</td>
-                    <td>Internet</td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="even gradeC">
-                    <td>06</td>
-                    <td>Explorer </td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="odd gradeX">
-                    <td>07</td>
-                    <td>Internet</td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
-                <tr class="even gradeC">
-                    <td>08</td>
-                    <td>Explorer </td>
-                    <td><a href="">Edit</a> || <a href="">Delete</a></td>
-                </tr>
+                <?php
+                    $query = "SELECT * FROM tbl_category ORDER BY id DESC";
+                    $category = $db->select($query);
+
+                    if($category) {
+                        $i = 0;
+                        while($result = mysqli_fetch_array($category)) {
+                            $i++;
+                ?>
+                            <tr class="odd gradeX">
+                                <td><?=$i?></td>
+                                <td><?= $result['name'] ?></td>
+                                <td><a href="editcat.php?catId=<?=$result['id']?>">Edit</a> || <a onclick="return confirm('are you sure to Delete !'); " href="?delCatId=<?=$result['id']?>">Delete</a></td>
+                            </tr>
+                <?php
+                        }
+                    }
+                ?>
             </tbody>
         </table>
         </div>
