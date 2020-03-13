@@ -19,7 +19,7 @@
 			?>
 				<h2><?= $post['title']; ?></h2>
 				<h4><?= $fm->dateFormat($post['date']) ?>, By <?= $post['author']; ?></h4>
-				<img src="admin/uploads/<?= $post['image']; ?>" alt="MyImage"/>
+				<img src="admin/<?= $post['image']; ?>" alt="MyImage"/>
 				<?= $post['body']; ?>
 				
 				<div class="relatedpost clear">
@@ -31,7 +31,7 @@
 						
 						while($postsReleted = $resultReleted->fetch_assoc()) {
 					?>
-						<a href="post.php?id=<?= $postsReleted['id'] ?>"><img src="admin/uploads/<?= $postsReleted['image']; ?>" alt="post image"/></a>
+						<a href="post.php?id=<?= $postsReleted['id'] ?>"><img src="admin/<?= $postsReleted['image']; ?>" alt="post image"/></a>
 					<?php
 						}
 					?>

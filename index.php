@@ -16,7 +16,7 @@
 
 		<?php
 
-			$query = "SELECT * FROM tbl_post limit $startFrom, $perPage";
+			$query = "SELECT * FROM tbl_post ORDER BY id DESC LIMIT $startFrom, $perPage";
 			$posts = $db->select($query);
 
 			if($posts) {
@@ -26,7 +26,7 @@
 			<div class="samepost clear">
 				<h2><a href=""><?= $result['title']; ?></a></h2>
 				<h4><?= $fm->dateFormat($result['date']); ?>, By <a href="#"><?= $result['author']; ?></a></h4>
-				 <a href="#"><img src="admin/uploads/<?=$result['image'];?>" alt="post image"/></a>
+				 <a href="#"><img src="admin/<?=$result['image'];?>" alt="post image"/></a>
 				 <?= $fm->shortText($result['body']); ?>
 				<div class="readmore clear">
 					<a href="post.php?id=<?= $result['id']; ?>">Read More</a>

@@ -5,8 +5,43 @@
 
     <div class="box round first grid">
         <h2>Add New Post</h2>
+        <?php
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $title  = mysqli_real_escape_string($db->link, $_POST['title']);
+                $cat    = mysqli_real_escape_string($db->link, $_POST['cat']);
+                $body   = mysqli_real_escape_string($db->link, $_POST['body']);
+                $tags   = mysqli_real_escape_string($db->link, $_POST['tags']);
+                $author = mysqli_real_escape_string($db->link, $_POST['author']);
+
+                $permitted = ['jpg', 'jpeg', 'png', 'gif'];
+                $imageName = $_FILES['image']['name'];
+                $imageSize = $_FILES['image']['size'];
+                $imageTemp = $_FILES['image']['tmp_name'];
+
+                $div = explode('.', $imageName);
+                $imageExt = strtolower(end($div));
+                
+                if (empty($title) || empty($cat) || empty($body) || empty($tags) || empty($author) || empty($imageName)) {
+                    echo "Feild can not be empty !";
+                } elseif (!in_array($imageExt, $permitted)) {
+                    echo "Upload image only with : " . implode(", ", $permitted);
+                } elseif ($imageSize > 1000000) {
+                    echo "Image size must be under 1 MB";
+                } else {
+                    $uniqueName = uniqid();
+                    $uploadedImage = "uploads/" . $uniqueName . "." . $imageExt;
+                    if (move_uploaded_file($imageTemp, $uploadedImage)) {
+                        $query = "INSERT INTO tbl_post(cat, title, body, image, author, tags) VALUES('$cat', '$title', '$body', '$uploadedImage', '$author', '$tags')";
+                        
+                        if ($db->insert($query)) {
+                            echo "Post Inserted Successfully.";
+                        }
+                    }
+                }
+            }
+        ?>
         <div class="block">               
-            <form action="" method="" enctype="multipart/form-data">
+            <form action="" method="POST" enctype="multipart/form-data">
             <table class="form">
                 
                 <tr>
@@ -14,7 +49,7 @@
                         <label>Title</label>
                     </td>
                     <td>
-                        <input type="text" placeholder="Enter Post Title..." class="medium" />
+                        <input type="text" name="title" placeholder="Enter Post Title..." class="medium" />
                     </td>
                 </tr>
                 
@@ -23,11 +58,19 @@
                         <label>Category</label>
                     </td>
                     <td>
-                        <select id="select" name="select">
+                        <select id="select" name="cat">
                             <option>Select One</option>
-                            <option value="1">Category One</option>
-                            <option value="2">Category Two</option>
-                            <option value="3">Cateogry Three</option>
+                            <?php
+                                $query = "SELECT * FROM tbl_category";
+                                $category = $db->select($query);
+                                if($category) {
+                                    while($result = mysqli_fetch_array($category)) {
+                            ?>
+                                        <option value="<?=$result['id'];?>"><?=$result['name'];?></option>
+                            <?php
+                                    }
+                                }
+                            ?>
                         </select>
                     </td>
                 </tr>
@@ -37,17 +80,37 @@
                         <label>Upload Image</label>
                     </td>
                     <td>
-                        <input type="file" />
+                        <input name="image" type="file" />
                     </td>
                 </tr>
+
                 <tr>
                     <td style="vertical-align: top; padding-top: 9px;">
                         <label>Content</label>
                     </td>
                     <td>
-                        <textarea class="tinymce"></textarea>
+                        <textarea name="body" class="tinymce"></textarea>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>
+                        <label>Tags</label>
+                    </td>
+                    <td>
+                        <input type="text" name="tags" placeholder="Enter tags name..." class="medium" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>Author</label>
+                    </td>
+                    <td>
+                        <input type="text" name="author" placeholder="Enter Author name..." class="medium" />
+                    </td>
+                </tr>
+
                 <tr>
                     <td></td>
                     <td>
