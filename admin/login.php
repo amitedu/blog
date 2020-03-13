@@ -1,4 +1,7 @@
-<?php require_once '../lib/Session.php'; ?>
+<?php 
+	require "../lib/Session.php"; 
+	Session::init();
+?>
 <?php require_once '../config/config.php'; ?>
 <?php require_once '../lib/Database.php'; ?>
 <?php require_once '../helpers/Format.php'; ?>

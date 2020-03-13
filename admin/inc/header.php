@@ -1,8 +1,15 @@
 <?php 
-    // include "../lib/Session.php";
-    // Session::init();
-    // echo Session::get('login');
-    // Session::checkSession();
+    include "../lib/Session.php";
+    Session::checkSession();
+?>
+<?php 
+    include '../config/config.php';
+    include '../lib/Database.php';
+    include '../helpers/Format.php'; 
+?>
+<?php
+	$db = new Database();
+	$fm = new Format();
 ?>
 
 <!DOCTYPE html>
@@ -53,9 +60,9 @@
                         <img src="img/img-profile.jpg" alt="Profile Pic" />
                     </div>
                     <?php
-                        // if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-                        //     Session::destroy();
-                        // }
+                        if (isset($_GET['action']) && $_GET['action'] == 'logout') {
+                            Session::destroy();
+                        }
                     ?>
                     <div class="floatleft marginleft10">
                         <ul class="inline-ul floatleft">
