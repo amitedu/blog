@@ -4,15 +4,29 @@
             <div class="box round first grid">
 				<h2>Post List</h2>
 				<?php
+					// For delete post
 					if (isset($_GET['deletePostId']) && $_GET['deletePostId'] != NULL) {
 						$deletePostId = $_GET['deletePostId'];
 
-						$queryDelete = "DELETE FROM tbl_post WHERE id = '$deletePostId'";
-						if ($db->delete($queryDelete)) {
-							echo "Delete Successfull";
-						} else {
-							echo "Delete Unsuccessfull";
+						$queryImage = "SELECT image FROM tbl_post";
+						$deleteImage = $db->select($queryImage);
+
+						if ($deleteImage) {
+							$result = mysqli_fetch_array($deleteImage);
+
+							if(unlink($result['image'])) {
+								$queryDelete = "DELETE FROM tbl_post WHERE id = '$deletePostId'";
+								if ($db->delete($queryDelete)) {
+									echo "Delete Successfull";
+									// echo "<script>window.location = 'postlist.php'</script>";
+								} else {
+									echo "Delete Unsuccessfull";
+									// echo "<script>window.location = 'postlist.php'</script>";
+								}
+							}
+
 						}
+
 					}
 				?>
                 <div class="block">  
@@ -32,7 +46,7 @@
 					</thead>
 					<tbody>
 						<?php	//Showing all posts in the table
-							$query = "SELECT p.*, c.name FROM tbl_post p join tbl_category c on p.cat = c.id";
+							$query = "SELECT p.*, c.name FROM tbl_post p join tbl_category c on p.cat = c.id ORDER BY p.id desc";
 							$post = $db->select($query);
 
 							if($post) {
