@@ -7,6 +7,7 @@
         <h2>Add New Post</h2>
         <?php
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
                 $title  = mysqli_real_escape_string($db->link, $_POST['title']);
                 $cat    = mysqli_real_escape_string($db->link, $_POST['cat']);
                 $body   = mysqli_real_escape_string($db->link, $_POST['body']);
@@ -107,7 +108,7 @@
                         <label>Author</label>
                     </td>
                     <td>
-                        <input type="text" name="author" placeholder="Enter Author name..." class="medium" />
+                        <input type="text" name="author" value="<?= Session::get('username'); ?>" class="medium" />
                     </td>
                 </tr>
 
