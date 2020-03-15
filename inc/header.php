@@ -8,7 +8,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<?php
+	//set headers to NOT cache a page
+	header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
+	header("Pragma: no-cache"); //HTTP 1.0
+	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");  
+	?>
 	<title>Basic Website</title>
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 	<meta name="language" content="English">
 	<meta name="description" content="It is a website about education">
 	<meta name="keywords" content="blog,cms blog">
@@ -44,13 +53,21 @@ $(window).load(function() {
 
 <body>
 	<div class="headersection templete clear">
+		<?php
+			$query = "SELECT * FROM tbl_logo";
+			if ($logo = $db->select($query)) {
+				$result = $logo->fetch_assoc();
+			}
+
+		?>
 		<a href="#">
 			<div class="logo">
-				<img src="images/logo.png" alt="Logo"/>
-				<h2>Website Title</h2>
-				<p>Our website description</p>
+				<img src="admin/<?= $result['logo']; ?>" alt="Logo"/>
+				<h2><?= $result['title']; ?></h2>
+				<p><?= $result['slogan']; ?></p>
 			</div>
 		</a>
+
 		<div class="social clear">
 			<div class="icon clear">
 				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>

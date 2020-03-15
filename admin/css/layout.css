@@ -322,6 +322,18 @@ ul.section li.current > a.active:hover {
 	cursor:default;
 }
 
+/*------Title Slogan admin page layout design-----*/
+.leftside {
+	float: left;
+	width: 70%;
+}
+.rightside {
+	float: right;
+	width: 30%;
+}
+.rightside img{
+	margin-top: 50px;
+}
 
 /* table
 ----------------------------------------------- */
