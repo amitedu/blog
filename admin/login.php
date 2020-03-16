@@ -1,6 +1,7 @@
 <?php 
 	require "../lib/Session.php"; 
 	Session::init();
+	Session::checklogin();
 ?>
 <?php require_once '../config/config.php'; ?>
 <?php require_once '../lib/Database.php'; ?>

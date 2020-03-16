@@ -14,7 +14,33 @@
 	header("Pragma: no-cache"); //HTTP 1.0
 	header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");  
 	?>
-	<title>Basic Website</title>
+	<?php
+		if (isset($_GET['blogPageId'])) {
+			$id = $_GET['blogPageId'];
+
+			$query = "SELECT * FROM tbl_page WHERE id = '$id'";
+			$temp = $db->select($query);
+
+			if ($temp) {
+				$resultTitle = $temp->fetch_assoc();
+				$title = $resultTitle['name'];
+			}
+			
+		} elseif (isset($_GET['id'])) {
+			$id = $_GET['id'];
+
+			$query = "SELECT * FROM tbl_post WHERE id = '$id'";
+			$temp = $db->select($query);
+
+			if ($temp) {
+				$resultTitle = $temp->fetch_assoc();
+				$title = $resultTitle['title'];
+			}
+		} else {
+			$title = $fm->title();
+		}
+	?>
+	<title><?= ucwords($title); ?> - <?= TITLE; ?></title>
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
@@ -67,13 +93,20 @@ $(window).load(function() {
 				<p><?= $result['slogan']; ?></p>
 			</div>
 		</a>
+		<?php
+			$querySocial = "SELECT * FROM tbl_social";
+			$post = $db->select($querySocial);
 
+			if ($post) {
+				$resultSocial = $post->fetch_assoc();
+			}
+		?>
 		<div class="social clear">
 			<div class="icon clear">
-				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-linkedin"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
+				<a href="<?= $resultSocial['fb']; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+				<a href="<?= $resultSocial['tw']; ?>" target="_blank"><i class="fa fa-twitter"></i></a>
+				<a href="<?= $resultSocial['ln']; ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
+				<a href="<?= $resultSocial['gp']; ?>" target="_blank"><i class="fa fa-google-plus"></i></a>
 			</div>
 			<div class="searchbtn clear">
 			<form action="search.php" method="GET">
@@ -86,7 +119,18 @@ $(window).load(function() {
 <div class="navsection templete">
 	<ul>
 		<li><a id="active" href="index.php">Home</a></li>
-		<li><a href="about.php">About</a></li>	
+		<?php
+			$query = "SELECT * FROM tbl_page";
+			$temp = $db->select($query);
+
+			if ($temp) {
+				while($resultPage = $temp->fetch_assoc()) {
+		?>
+					<li><a href="blogpage.php?blogPageId=<?= $resultPage['id']; ?>"><?= $resultPage['name']; ?></a></li>	
+		<?php
+				}
+			}
+		?>
 		<li><a href="contact.php">Contact</a></li>
 	</ul>
 </div>

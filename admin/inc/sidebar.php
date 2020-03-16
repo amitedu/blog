@@ -12,10 +12,21 @@
                     </ul>
                 </li>
                 
-                    <li><a class="menuitem">Update Pages</a>
+                    <li><a class="menuitem">Pages</a>
                     <ul class="submenu">
-                        <li><a>About Us</a></li>
-                        <li><a>Contact Us</a></li>
+                        <li><a href="addpage.php">Add New Pages</a> </li>
+                        <?php
+                            $queryShow = "SELECT * FROM tbl_page";
+                            $pages = $db->select($queryShow);
+
+                            if ($pages) {
+                                while ($result = $pages->fetch_assoc()) {
+                        ?>
+                                    <li><a href="page.php?pageId=<?= $result['id']; ?>"><?= $result['name']; ?></a></li>
+                        <?php
+                                }
+                            }
+                        ?>
                     </ul>
                 </li>
                 <li><a class="menuitem">Category Option</a>
