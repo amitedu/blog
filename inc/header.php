@@ -118,7 +118,7 @@ $(window).load(function() {
 	</div>
 <div class="navsection templete">
 	<ul>
-		<li><a id="active" href="index.php">Home</a></li>
+		<li><a id="<?= $fm->title() == 'home' ? 'active': ''; ?>" href="index.php">Home</a></li>
 		<?php
 			$query = "SELECT * FROM tbl_page";
 			$temp = $db->select($query);
@@ -126,11 +126,14 @@ $(window).load(function() {
 			if ($temp) {
 				while($resultPage = $temp->fetch_assoc()) {
 		?>
-					<li><a href="blogpage.php?blogPageId=<?= $resultPage['id']; ?>"><?= $resultPage['name']; ?></a></li>	
+					<li>
+						<a id="<?= isset($_GET['blogPageId']) && $_GET['blogPageId'] == $resultPage['id'] ? 'active' : ''; ?>"
+							href="blogpage.php?blogPageId=<?= $resultPage['id']; ?>"><?= $resultPage['name']; ?></a>
+					</li>	
 		<?php
 				}
 			}
 		?>
-		<li><a href="contact.php">Contact</a></li>
+		<li><a id="<?= $fm->title() == 'contact' ? 'active': ''; ?>" href="contact.php">Contact</a></li>
 	</ul>
 </div>
