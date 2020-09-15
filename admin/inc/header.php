@@ -77,13 +77,22 @@
         </div>
         <div class="clear">
         </div>
+        <?php
+            $query = "SELECT * FROM tbl_contact WHERE status = 0";
+            $temp = $db->select($query);
+
+            if ($temp) {
+                $count = mysqli_num_rows($temp);
+            }
+        ?>
         <div class="grid_12">
             <ul class="nav main">
                 <li class="ic-dashboard"><a href="index.php"><span>Dashboard</span></a> </li>
                 <li class="ic-form-style"><a href=""><span>User Profile</span></a></li>
 				<li class="ic-typography"><a href="changepassword.php"><span>Change Password</span></a></li>
-				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox</span></a></li>
-                <li class="ic-charts"><a href="postlist.php"><span>Visit Website</span></a></li>
+				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox<?= isset($count) ? '(' . $count . ')' : '(0)'; ?></span></a></li>
+                <li class="ic-charts"><a href="adduser.php"><span>Add User</span></a></li>
+                <li class="ic-charts"><a href="userlist.php"><span>User List</span></a></li>
             </ul>
         </div>
         <div class="clear">

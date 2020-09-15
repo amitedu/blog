@@ -71,7 +71,7 @@
                                 <td>
                                     <a href="msgview.php?msgId=<?= $message['id']; ?>">View</a> 
                                     || 
-                                    <a href="msgreplay.php?msgId=<?= $message['id']; ?>">Replay</a> 
+                                    <a href="msgreplay.php?msgId=<?= $message['id']; ?>">Reply</a> 
                                     || 
                                     <a id="seen" href="?seenId=<?= $message['id']; ?>">Seen</a>
                                 </td>

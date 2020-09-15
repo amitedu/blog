@@ -45,8 +45,8 @@
 	<meta http-equiv="Pragma" content="no-cache" />
 	<meta http-equiv="Expires" content="0" />
 	<meta name="language" content="English">
-	<meta name="description" content="It is a website about education">
-	<meta name="keywords" content="blog,cms blog">
+	<meta name="description" content="<?= isset($resultTitle['title']) ? $resultTitle['title'] : KEYWORDS; ?>">
+	<meta name="keywords" content="<?= isset($resultTitle['tags']) ? $resultTitle['tags'] : KEYWORDS; ?>">
 	<meta name="author" content="Delowar">
 	<link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.css">	
 	<link rel="stylesheet" href="css/nivo-slider.css" type="text/css" media="screen" />
